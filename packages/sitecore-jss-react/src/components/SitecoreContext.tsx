@@ -66,27 +66,30 @@ export class SitecoreContext extends React.Component<SitecoreContextProps> {
       this.contextFactory = new SitecoreContextFactory();
     }
 
+    /**
+     * React Context Provider should accept Object instead of
+     * SitecoreContextFactory class instance
+     */
+    this.contextFactory = { ...this.contextFactory };
+
     // we force the children of the context to re-render when the context is updated
     // even if the local props are unchanged; we assume the contents depend on the Sitecore context
     this.contextFactory.subscribeToContext(this.contextListener);
   }
 
-  contextListener = () => this.forceUpdate();
+  contextListener = (value: any) => {
+    this.contextFactory.context = value;
+    this.forceUpdate();
+  }
 
   componentWillUnmount() {
     this.contextFactory.unsubscribeFromContext(this.contextListener);
   }
 
-  /**
-   * React Context Provider should accept Object instead of
-   * SitecoreContextFactory class instance
-   */
-  getSitecoreContextValue = () => ({ ...this.contextFactory });
-
   render() {
     return (
     <ComponentFactoryReactContext.Provider value={this.componentFactory}>
-      <SitecoreContextReactContext.Provider value={this.getSitecoreContextValue()}>
+      <SitecoreContextReactContext.Provider value={this.contextFactory}>
         {this.props.children}
       </SitecoreContextReactContext.Provider>
     </ComponentFactoryReactContext.Provider>
