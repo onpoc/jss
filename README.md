@@ -58,3 +58,5 @@ Read our [contributing guide](CONTRIBUTING.md) to learn about our development pr
 Sitecore JavaScript Services is using the [Apache 2.0 license](LICENSE.MD).
 
 ## [Support](SUPPORT.md)
+
+* Sitecore JSS starter project and documentation
